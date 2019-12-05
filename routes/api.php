@@ -13,6 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::resource('regions', 'RegionController')->only(['index', 'show']);
+Route::resource('provinces', 'ProvinceController')->only(['index', 'show']);
+Route::resource('districts', 'DistrictController')->only(['index', 'show']);
+Route::resource('cities', 'CityController')->only(['index', 'show']);
+Route::resource('municipalities', 'MunicipalityController')->only(['index', 'show']);
+Route::resource('subMunicipalities', 'SubMunicipalityController')->only(['index', 'show']);
+Route::resource('barangays', 'BarangayController')->only(['index', 'show']);
