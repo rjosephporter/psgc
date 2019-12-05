@@ -60,29 +60,29 @@ class GetPsgcList extends Command
                     break;
                 /*---------------------------------*/
                 case 'Prov':
-                    $tier[2] = $this->fillData(new Province, $row);
+                    $tier[2] = (new Province)->fill($row);
                     $tier[1]->provinces()->save($tier[2]);
                     break;
                 case 'Dist':
-                    $tier[2] = $this->fillData(new District, $row);
+                    $tier[2] = (new District)->fill($row);
                     $tier[1]->districts()->save($tier[2]);
                     break;
                 /*---------------------------------*/
                 case 'City':
-                    $tier[3] = $this->fillData(new City, $row);
+                    $tier[3] = (new City)->fill($row);
                     $tier[2]->cities()->save($tier[3]);
                     break;
                 case 'Mun':
-                    $tier[3] = $this->fillData(new Municipality, $row);
+                    $tier[3] = (new Municipality)->fill($row);
                     $tier[2]->municipalities()->save($tier[3]);
                     break;
                 case 'SubMun':
-                    $tier[3] = $this->fillData(new SubMunicipality, $row);
+                    $tier[3] = (new SubMunicipality)->fill($row);
                     $tier[2]->subMunicipalities()->save($tier[3]);
                     break;
                 /*---------------------------------*/
                 case 'Bgy':
-                    $tier[4] = $this->fillData(new Barangay, $row);
+                    $tier[4] = (new Barangay)->fill($row);
                     $tier[3]->barangays()->save($tier[4]);
                     break;
             }
@@ -100,14 +100,5 @@ class GetPsgcList extends Command
         Municipality::truncate();
         SubMunicipality::truncate();
         Barangay::truncate();
-    }
-
-    private function fillData($model, $data)
-    {
-        foreach($data as $key => $value) {
-            $model->$key = $value;
-        }
-
-        return $model;
     }
 }

@@ -25,7 +25,7 @@ class BarangayController extends Controller
      */
     public function show(Barangay $barangay)
     {
-        $barangay->load('parent.parent.region');
+        $barangay->load('parent');
         return new Tier4Resource($barangay);
     }
 }
