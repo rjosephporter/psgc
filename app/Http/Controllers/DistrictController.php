@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\District;
-use App\Http\Resources\LocationResource;
-use Illuminate\Http\Request;
+use App\Http\Resources\Tier2Resource;
 
 class DistrictController extends Controller
 {
@@ -15,7 +14,7 @@ class DistrictController extends Controller
      */
     public function index()
     {
-        return LocationResource::collection(District::paginate(20));
+        return Tier2Resource::collection(District::paginate(20));
     }
 
     /**
@@ -26,6 +25,12 @@ class DistrictController extends Controller
      */
     public function show(District $district)
     {
-        return new LocationResource($district);
+        if($district->cities()->count())
+            $district->load('cities');
+        if($district->municipalities()->count())
+            $district->load('municipalities');
+        if($district->subMunicipalities()->count())
+            $district->load('subMunicipalities');
+        return new Tier2Resource($district);
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LocationResource;
+use App\Http\Resources\Tier2Resource;
 use App\Province;
-use Illuminate\Http\Request;
 
 class ProvinceController extends Controller
 {
@@ -15,7 +14,7 @@ class ProvinceController extends Controller
      */
     public function index()
     {
-        return LocationResource::collection(Province::paginate(20));
+        return Tier2Resource::collection(Province::paginate(20));
     }
 
     /**
@@ -26,6 +25,12 @@ class ProvinceController extends Controller
      */
     public function show(Province $province)
     {
-        return new LocationResource($province);
+        if($province->cities()->count())
+            $province->load('cities');
+        if($province->municipalities()->count())
+            $province->load('municipalities');
+        if($province->subMunicipalities()->count())
+            $province->load('subMunicipalities');
+        return new Tier2Resource($province);
     }
 }

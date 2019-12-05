@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Barangay;
-use App\Http\Resources\LocationResource;
-use Illuminate\Http\Request;
+use App\Http\Resources\Tier4Resource;
 
 class BarangayController extends Controller
 {
@@ -15,7 +14,7 @@ class BarangayController extends Controller
      */
     public function index()
     {
-        return LocationResource::collection(Barangay::paginate(20));
+        return Tier4Resource::collection(Barangay::paginate(20));
     }
 
     /**
@@ -27,6 +26,6 @@ class BarangayController extends Controller
     public function show(Barangay $barangay)
     {
         $barangay->load('parent.parent.region');
-        return new LocationResource($barangay);
+        return new Tier4Resource($barangay);
     }
 }

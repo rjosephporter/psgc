@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\City;
-use App\Http\Resources\LocationResource;
-use Illuminate\Http\Request;
+use App\Http\Resources\Tier3Resource;
 
 class CityController extends Controller
 {
@@ -15,7 +14,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        return LocationResource::collection(City::paginate(20));
+        return Tier3Resource::collection(City::paginate(20));
     }
 
     /**
@@ -26,6 +25,7 @@ class CityController extends Controller
      */
     public function show(City $city)
     {
-        return new LocationResource($city);
+        $city->load(['parent', 'barangays']);
+        return new Tier3Resource($city);
     }
 }

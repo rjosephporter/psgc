@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LocationResource;
+use App\Http\Resources\Tier3Resource;
 use App\Municipality;
-use Illuminate\Http\Request;
 
 class MunicipalityController extends Controller
 {
@@ -15,7 +14,7 @@ class MunicipalityController extends Controller
      */
     public function index()
     {
-        return LocationResource::collection(Municipality::paginate(20));
+        return Tier3Resource::collection(Municipality::paginate(20));
     }
 
     /**
@@ -26,6 +25,7 @@ class MunicipalityController extends Controller
      */
     public function show(Municipality $municipality)
     {
-        return new LocationResource($municipality);
+        $municipality->load(['parent', 'barangays']);
+        return new Tier3Resource($municipality);
     }
 }

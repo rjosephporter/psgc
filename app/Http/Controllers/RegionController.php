@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LocationResource;
+use App\Http\Resources\Tier1Resource;
 use App\Region;
-use Illuminate\Http\Request;
 
 class RegionController extends Controller
 {
@@ -15,7 +14,7 @@ class RegionController extends Controller
      */
     public function index()
     {
-        return LocationResource::collection(Region::all());
+        return Tier1Resource::collection(Region::all());
     }
 
     /**
@@ -26,6 +25,7 @@ class RegionController extends Controller
      */
     public function show(Region $region)
     {
-        return new LocationResource($region);
+        $region->load(['provinces', 'districts']);
+        return new Tier1Resource($region);
     }
 }
