@@ -25,6 +25,7 @@ class DistrictController extends Controller
      */
     public function show(District $district)
     {
+        $district->load('region');
         if($district->cities()->count())
             $district->load('cities');
         if($district->municipalities()->count())

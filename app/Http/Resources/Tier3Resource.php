@@ -3,9 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Tier4Resource;
-use App\Http\Resources\Tier2Resource;
-use App\Http\Resources\SubMunicipalityResource;
+use Illuminate\Support\Str;
 
 class Tier3Resource extends JsonResource
 {
@@ -17,6 +15,9 @@ class Tier3Resource extends JsonResource
      */
     public function toArray($request)
     {
+        $parentType = $this->whenLoaded('parent') ? 
+            strtolower(Str::afterLast($this->parent_type, '\\')) : null;
+
         return [
             'id' => $this->id,
             'code' => $this->code,
@@ -24,7 +25,7 @@ class Tier3Resource extends JsonResource
             'city_class' => $this->city_class,
             'income_classification' => $this->income_classification,
             'population' => $this->population,
-            'parent' => new Tier2Resource($this->whenLoaded('parent')),
+            $parentType => new Tier2Resource($this->whenLoaded('parent')),
             'submunicipalities' => SubMunicipalityResource::collection($this->whenLoaded('submunicipalities')),
             'barangays' => Tier4Resource::collection($this->whenLoaded('barangays'))
         ];

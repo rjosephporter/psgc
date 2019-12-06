@@ -25,6 +25,7 @@ class ProvinceController extends Controller
      */
     public function show(Province $province)
     {
+        $province->load('region');
         if($province->cities()->count())
             $province->load('cities');
         if($province->municipalities()->count())
