@@ -29,8 +29,6 @@ class ProvinceController extends Controller
             $province->load('cities');
         if($province->municipalities()->count())
             $province->load('municipalities');
-        if($province->subMunicipalities()->count())
-            $province->load('subMunicipalities');
         return new Tier2Resource($province);
     }
 }

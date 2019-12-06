@@ -18,9 +18,4 @@ class Province extends BaseModel
     {
         return $this->morphMany(Municipality::class, 'parent');
     }
-
-    public function subMunicipalities()
-    {
-        return $this->morphMany(SubMunicipality::class, 'parent');
-    }
 }

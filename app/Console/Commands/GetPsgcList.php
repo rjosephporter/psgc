@@ -51,8 +51,9 @@ class GetPsgcList extends Command
         $this->truncateTables();
 
         $tier = [];
+        $ncrSubMun = null;
 
-        $rows->each(function($row) use (&$tier) {
+        $rows->each(function($row) use (&$tier, &$ncrSubMun) {
 
             switch($row['geographic_level']) {
                 case 'Reg':
@@ -76,14 +77,21 @@ class GetPsgcList extends Command
                     $tier[3] = (new Municipality)->fill($row);
                     $tier[2]->municipalities()->save($tier[3]);
                     break;
+                /*---------------------------------*/
                 case 'SubMun':
-                    $tier[3] = (new SubMunicipality)->fill($row);
-                    $tier[2]->subMunicipalities()->save($tier[3]);
+                    if($tier[3]->code == '133900000') {
+                        $ncrSubMun = (new SubMunicipality)->fill($row);
+                        $tier[3]->submunicipalities()->save($ncrSubMun);
+                    }
                     break;
                 /*---------------------------------*/
                 case 'Bgy':
                     $tier[4] = (new Barangay)->fill($row);
-                    $tier[3]->barangays()->save($tier[4]);
+                    if($tier[3]->code == '133900000') {
+                        $ncrSubMun->barangays()->save($tier[4]);
+                    } else {
+                        $tier[3]->barangays()->save($tier[4]);
+                    }
                     break;
             }
 

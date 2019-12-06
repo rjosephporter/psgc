@@ -29,8 +29,6 @@ class DistrictController extends Controller
             $district->load('cities');
         if($district->municipalities()->count())
             $district->load('municipalities');
-        if($district->subMunicipalities()->count())
-            $district->load('subMunicipalities');
         return new Tier2Resource($district);
     }
 }

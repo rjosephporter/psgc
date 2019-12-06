@@ -25,7 +25,11 @@ class CityController extends Controller
      */
     public function show(City $city)
     {
-        $city->load(['parent', 'barangays']);
+        $city->load(['parent']);
+        if($city->submunicipalities()->count())
+            $city->load('submunicipalities');
+        if($city->barangays()->count())
+            $city->load('barangays');
         return new Tier3Resource($city);
     }
 }
